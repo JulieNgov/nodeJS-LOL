@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="menu">
+        <p id="welcome"></p>
+        <div>
+            <a href="signup.html">Sign up</a>
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+
+    <div class="form">
+        <h2>Ajouter un champion</h2>
+        <div class="input">
+            <input type="text" name="champion" placeholder="Nom du champion" required>
+            <select name="type" id="type">
+                <option value="Tank">Tank</option>
+                <option value="Mage">Mage</option>
+                <option value="Assassin">Assassin</option>
+                <option value="Support">Support</option>
+                <option value="Marksman">Marksman</option>
+                <option value="Fighter">Fighter</option>
+            </select>
+        </div>
+
+        <button onclick="sendChampion()">Ajouter</button>
+    </div>
+
+    <div id="champions"></div>
+
+    <script>
+        fetch('http://localhost:3000/champions')
+        .then(response => response.json())
+                .then(data => {
+                    let champions = document.querySelector('#champions')
+                    data.forEach(champion => {
+                        champions.innerHTML += `
+                            <a href="champion.html?id=${champion.id}"><h2>${champion.name}</h2></a>
+                            `
+                    });
+                });
+
+        const sendChampion = () => {
+            let token = localStorage.getItem('token')
+            if (!token) {
+                alert('Please log in to add a champion.')
+                return
+            }
+            let champion = document.querySelector('input[name="champion"]').value
+            let type = document.querySelector('select[name="type"]').value
+            fetch('http://localhost:3000/champions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token
+                },
+                body: JSON.stringify({name: champion, type: type})
+            })
+            window.location.href = 'index.html'
+        }
+
+        let token = localStorage.getItem('token')
+        if (token) {
+            fetch('http://localhost:3000/user', {
+                headers: {
+                    'x-access-token': token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('#welcome').innerText = `Welcome ${data.pseudo}`
+            })
+        }
+
+    </script>
+</body>
+</html>

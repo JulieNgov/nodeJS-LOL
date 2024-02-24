@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="menu">
+        <p id="welcome"></p>
+        <div>
+            <a href="signup.html">Sign up</a>
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+
+    <form class="form" onsubmit="event.preventDefault(); updateChampion()">
+        <div class="input">
+            <input type="text" name="champion" placeholder="Name">
+            <select name="type" id="type">
+                <option value="Tank">Tank</option>
+                <option value="Mage">Mage</option>
+                <option value="Assassin">Assassin</option>
+                <option value="Support">Support</option>
+                <option value="Marksman">Marksman</option>
+                <option value="Fighter">Fighter</option>
+            </select>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+
+    <div id="champion"></div>
+
+    <div class="links">
+        <button onclick="deleteChampion()">Delete</button>
+        <a href="index.html">Retour</a>
+    </div>
+
+    <script>
+        let url = window.location.search
+        let id = new URLSearchParams(url).get('id')
+
+        fetch(`http://localhost:3000/champions/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                let champion = document.querySelector('#champion')
+                champion.innerHTML = `
+                    <h1>${data.name}</h1>
+                    <p>${data.type}</p>
+                `
+                let Name = document.querySelector('input[name="champion"]')
+                Name.value = data.name
+            });
+
+    const updateChampion = async () => {
+        event.preventDefault()
+        let token = localStorage.getItem('token')
+        if (!token) {
+            alert('Please log in to update a champion.')
+            return
+        }
+        let champion = document.querySelector('input[name="champion"]').value
+        let type = document.querySelector('select[name="type"]').value
+        let response = await fetch(`http://localhost:3000/champions/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            },
+            body: JSON.stringify({name: champion, type: type})
+        })
+        window.location.reload()
+    }
+
+        const deleteChampion = async () => {
+        let token = localStorage.getItem('token')
+        if (!token) {
+            alert('Please log in to delete a champion.')
+            return
+        }
+        await fetch(`http://localhost:3000/champions/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'x-access-token': token
+            }
+        })
+
+        window.location.href = 'index.html'
+    }
+
+    let token = localStorage.getItem('token')
+        if (token) {
+            // Fetch user data
+            fetch('http://localhost:3000/user', {
+                headers: {
+                    'x-access-token': token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display welcome message
+                document.querySelector('#welcome').innerText = `Welcome ${data.pseudo}`
+            })
+        }
+    </script>
+</body>
+</html>

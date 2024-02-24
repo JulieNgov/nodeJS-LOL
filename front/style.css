@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: #2d299d;
+}
+
+.menu a {
+    margin: 0 10px;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px 50px 0;
+    background-color: white;
+    border-bottom: 1px solid white;
+}
+
+.form h2 {
+    padding-bottom: 10px;
+    color: #2d299d;
+}
+
+.form .input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form input {
+    border: 2px solid #2d299d;
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+}
+
+.form select {
+    border: 2px solid #2d299d;
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+}
+
+.form button {
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+    border: none;
+    background-color: #2d299d;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid #ffffff;
+}
+
+.form button:hover {
+    background-color: #1f1c7d;
+}
+
+#champions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 5%;
+    margin-bottom: 50px;
+}
+
+#champions a {
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    border: 2px solid #ffffff;
+}
+
+#champions a:hover {
+    background-color: #2d299d;
+    border: 2px solid #2d299d;
+}
+
+#champion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 5%;
+    margin-bottom: 20px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 50px;
+    background-color: #2d299d;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.links button {
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    background-color: #2d299d;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.links button:hover {
+    text-decoration: underline;
+}

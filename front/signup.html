@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="signlog.css">
+</head>
+<body>
+    <div class="form">
+        <h2>Sign up</h2>
+        <label for="email">Email</label>
+        <input type="email" name="email">
+        <label for="pseudo">Pseudo</label>
+        <input type="text" name="pseudo">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+        <button onclick="signUp()">Sign up</button>
+        <p>Vous avez déjà un compte? <a href="login.html">Log in</a></p>
+        <a href="index.html">Retour à la page principale</a>
+    </div>
+
+    <script>
+        const signUp = async () => {
+            let email = document.querySelector('input[name="email"]').value;
+            let pseudo = document.querySelector('input[name="pseudo"]').value;
+            let password = document.querySelector('input[name="password"]').value;
+
+            let response = await fetch('http://localhost:3000/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    pseudo,
+                    password
+                })
+            })
+            let data = await response.json()
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
